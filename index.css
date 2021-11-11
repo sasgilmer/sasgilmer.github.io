@@ -282,7 +282,7 @@ body {
 
 #work {
   margin: 2vh 0px;
-  padding: 4vh 0px !important;
+  padding: 2vh 0px !important;
 }
 
 #forks {
@@ -305,7 +305,7 @@ body {
 
 .projects section {
   width: 100%;
-  padding: 2.5vh 5%;
+  padding: 2vh 3%;
   margin: 1vh 0px;
   display: inline-block;
   border-radius: 5px;
@@ -376,7 +376,7 @@ body {
 }
 
 #blogs {
-  columns: 2;
+  columns: 1;
 }
 
 #blog_title {
@@ -402,6 +402,8 @@ body {
 }
 
 #blogs section img {
+  object-fit: cover;
+  height: 120px;
   width: 100%;
   border-radius: 5px 5px 0px 0px;
 }
