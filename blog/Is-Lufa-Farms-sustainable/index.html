@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Is Lufa Farms sustainable?</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../index.css"></head>
+  <body>
+    <div id="loading">
+      <div id="spinner"></div>
+    </div>
+    <a href="/" class="go_back"><i class="fas fa-arrow-left"></i></a>
+    <div id="background_overlay"></div>
+    <div id="background" style="background: url(top_image.png) center;"></div>
+    <table id="profile_blog">
+      <tbody>
+        <tr>
+          <td style="width:8vw;height:10vw"></div></td>
+          <td style="width:52vw;">
+        </tr>
+      </tbody>
+    </table>
+    <div id="blog-display">
+      <h1 id="blog_title">Is Lufa Farms sustainable?</h1>
+      <h2 id="blog_sub_title">Eating local doesn't necessarily lower your carbon footprint.</h2>
+      <div id="blog"><p id="para_1_original">Choosing food produced by an industrial farm in a warmer climate, such as California, may have less of an environmental impact than choosing food grown locally in greenhouses. The argument is that transporting produce from warmer climates to Canada produces less emissions than heating the greenhouse. This result still holds when the relative decarbonization of the electricity grids in both locations is accounted for. </p><p id="para_2_original">I sometimes order food from Lufa Farms, a company that grows produce in rooftop greenhouses in Montreal. They say that they are a sustainable alternative, so I wanted to look into this claim. The five arguments that Lufa Farms use to back this claim are:<br>
+1) Capturing rainwater and recirculating irrigation water allows them to save more than
+50% of the water that is used on a comparable farm. This also means that they don’t
+contaminate the surrounding ecosystem with nutrients from fertilizer.<br>
+2) They do not use synthetic pesticides. <br>
+3) They use half the heating energy of traditional ground-level greenhouses.<br>
+4) No new land is used.<br>
+5) They compost green waste.</p><p id="para_4_original">Claims 1 and 4 are the most convincing for me. As we have seen, nutrient runoff and leaching from fertilizer can cause devastating eutrophication. Also, land use change to meet rising food demand can contribute significantly to GHG emissions as well as deforestation and habitat loss. I do not think that claims 2 or 5 would have a large impact on the environment. Using synthetic pesticides in a greenhouse, especially since Lufa Farms recirculates their irrigation water, would have a limited direct effect on the surrounding ecosystem. There are environmental consequences involved in the manufacture and distribution of pesticides, but I do not think that they would make a big difference in this case. I would assume that most farms do something along the lines of composting their green waste.</p><p id="para_5_original">Interestingly, they do not mention transportation. Their distribution vehicles are all electric and only distribute food in the Montreal area, so the emissions related to transportation are certainly lower than those associated with transporting food from non-local farms. However, transportation emissions pale in comparison to the emissions associated with heating greenhouses. Research has shown that there are 7 times more GHG emissions associated with producing a strawberry in a greenhouse in Quebec than getting that same strawberry from California, and that a large part of this is heating. Even if Lufa Farms uses half of the heating energy of a traditional greenhouse, they are still producing 3.5 times more emissions. Therefore, from a GHG emissions standpoint, Lufa Farms is the less sustainable option. However, in terms of the use and contamination of land and water, Lufa Farms is more sustainable.</p></div>
+    </div>
+
+    <script type="text/javascript">
+      setTimeout(function() {
+        document.getElementById("loading").classList.add("animated");
+        document.getElementById("loading").classList.add("fadeOut");
+        setTimeout(function() {
+          document.getElementById("loading").classList.remove("animated");
+          document.getElementById("loading").classList.remove("fadeOut");
+          document.getElementById("loading").style.display = "none";
+        }, 800);
+      }, 1500);
+      $.getJSON("../../config.json", function(user) {
+        var icon = document.createElement("link");
+        icon.setAttribute("rel", "icon");
+        icon.setAttribute("href", user[0].userimg);
+        icon.setAttribute("type", "image/png");
+        document.getElementsByTagName("head")[0].appendChild(icon);
+        document.getElementById(
+          "profile_img_blog"
+        ).style.background = `url('${user[0].userimg}') center center`;
+        document.getElementById(
+          "username_blog"
+        ).innerHTML = `<span style="display:${
+          user[0].name == null || !user[0].name ? "none" : "block"
+        };">${user[0].name}</span>@${user[0].username}<b id="blog_time"></b>`;
+
+        if ((user[0].theme = "dark.css")) {
+          document.querySelector("#background_overlay").style.background =
+            "linear-gradient(0deg, rgba(10, 10, 10, 1), rgba(10, 10, 10, 0.1))";
+        } else {
+          document.querySelector("#background_overlay").style.background =
+            "linear-gradient(0deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.1))";
+        }
+      });
+    </script>
+  
+
+</body></html>

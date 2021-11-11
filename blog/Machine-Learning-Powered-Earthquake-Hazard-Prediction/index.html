@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Machine Learning Powered Earthquake Hazard Prediction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../index.css"></head>
+  <body>
+    <div id="loading">
+      <div id="spinner"></div>
+    </div>
+    <a href="/" class="go_back"><i class="fas fa-arrow-left"></i></a>
+    <div id="background_overlay"></div>
+    <div id="background" style="background: url(top_image.png) center;"></div>
+    <table id="profile_blog">
+      <tbody>
+        <tr>
+          <td style="width:8vw;height:10vw"></div></td>
+          <td style="width:52vw;">
+            
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div id="blog-display">
+      <h1 id="blog_title">Machine Learning Powered Earthquake Hazard Prediction</h1>
+      <h2 id="blog_sub_title">Based on a seminar by Dr. Daniel Trugman https://youtu.be/3MDzndzAzbQ</h2>
+      <h3>Background</h3>
+      <div id="blog"><p id="para_0_original"> 
+In his seminar, Dr. Trugman explores two areas where the application of machine learning (ML) to earthquake seismology is being actively studied: ground motion prediction and earthquake early warning (EEW) systems.
+Traditionally, ground motion is predicted using a linear function of earthquake magnitude and distance. This approach assumes that an earthquake's size can be measured statically by its magnitude. In reality, earthquakes of the same magnitude can have significantly different source properties, which correspond to differences in the observed displacement pulse. Dr. Trugman seeks to quantify how dynamic stress drop, which is one of these source properties, correlates to peak ground acceleration (PGA). He asks if the between-event variability which is lacking from traditional ground motion prediction equations (GMPEs) can be modelled using ML.
+ML can also be applied to a major open question in seismology: is it possible to conclude, solely by examining the early rupture process, if an earthquake is large or not? Dr. Trugman asks whether weak determinism, as observed by Goldberg et al. (2018), can be assumed in EEW algorithms.</p>
+<h3>Summary: Random Forest GMPE</h3>
+<p id="para_1_original">
+Trugman and Shearer's analysis of the influence of stress drop on the PGA of earthquakes involves three components: stress drop estimates for the events studied, PGA measurements at the stations recording those events, and a reference GMPE to model the expected variability of PGA values.
+Dynamic stress drop values are estimated using spectral decomposition. P-wave spectra are used to minimize the effects of attenuation and the vertical component is used to reduce noise within the waveform. Spectral decomposition works well on datasets in which every station in the dataset records many earthquakes and every earthquake is recorded by many stations. The authors choose to work with a large dataset of moderate magnitude earthquakes occuring in the San Francisco Bay Area between 2002 and 2016. Since this region has frequent earthquakes and high station density, the observational constraints on source, path, and site effects can be used to derive a stress drop value from the spectra.
+PGA measurements are obtained for each earthquake by considering all stations within 100 km from its source. The horizontal-component records from those stations are passed through band-pass filtration and quality control. The PGA is then computed by taking the geometric mean of the remaining records.
+Since existing GMPEs have been derived from records of earthquakes in regions or magnitude ranges outside of those in question, a novel GMPE must be developed. Using an ML technique called Random Forest (RF) allows the GMPE to account for interactions between source, site, and path effects and to avoid overfitting to observational noise in the input data, both of which are limitations of the linear regressions traditionally used. The base of the RF regression model accounts for the nonlinear effects of magnitude and distance. The model then learns the between-event residual terms, which represent the impact of the effects that are not accounted for in the base, namely the contributions of the individual events and stations. The model outputs ΔPGA measurements, which represent the deviation of that specific event's ground motion from the expected ground motion for a typical event with the same distance, magnitude, and station.
+Stress drop Δσ is strongly correlated with the ΔPGA residuals generated by the model (Figure 1). After correcting for magnitude and source depth, the Δσ-ΔPGA correlation is still strong, suggesting that the between-event variability in PGA has a physical basis in stress drop (Trugman &amp; Shearer, 2018).</p><img src="img_0.png" alt="blog image 0" id="img_0_original">
+<h3>Summary: Rupture Determinism and EEW </h3>
+<p id="para_3_original">
+Dr. Truman focuses on the real-time magnitude estimation step of ShakeAlert, an EEW system developed for use in California. ShakeAlert uses a deterministic rupture model based on the assumption that the log of peak ground displacement (PGD) is linear with respect to magnitude and that this relation is time-independent. This study analyses a dataset of over 140,000 vertical-component waveforms collected between 1997 and 2018 from earthquakes over magnitude 4.5 around Japan, to quantify the accuracy of these deterministic magnitude estimations.
+Starting at P-wave onset, the PGD is computed continuously. The waveforms are double integrated to convert the recorded acceleration into displacement. Since PGD has a first order dependency of the distance to the hypocenter, a distance correction is performed. The measurements are normalized to an epicentral distance of 10 km. While the rupture is still growing, these PGD values exhibit steep power law growth regardless of the magnitude of the earthquake that they are measured from (figure 2). This implies that earthquakes of different magnitudes are likely indistinguishable by PGD during rupture (Trugman et al., 2019).</p><img src="img_1.png" alt="blog image 1" id="img_1_original">
+
+<p id="para_4_original">Although not detailed in the paper, Dr. Truman presents research into alternative statistical features of waveforms that could be used to estimate magnitude. If distinguishing between large and small earthquakes during rupture is indeed possible, it would imply that some feature of the source properties determines the earthquake’s final magnitude, thus rupture determinism is valid for that feature (​Trugman, 2018).​ In the case of PGD, however, the results in the paper suggest that rupture determinism cannot be assumed to be valid.</p>
+<h3>Critique</h3>
+<p id="para_5_original">
+The strength of the RF GMPE framework lies in its extensibility to new datasets. In the future, it can be used to predict other measures of ground motion and to quantify the importance of rupture dynamics and finite fault effects (Kong et al., 2018). The RF approach also reduces the overfitting to input data observed in traditional GMPEs. This indicates potential for the model to learn about ground motion more generally, and thus make accurate predictions for data that is different from the data that it was trained on. Such a general model would be useful for data limited situations such as large magnitudes, close source receiver distances, and less seismically active regions like Cascadia.
+The conclusion that PGD cannot determine magnitude at short timescales has alarming implications for the accuracy of EEW systems. However, in the paper, there is no use of ML, despite the fact that the large, complex data set that they used is well suited for it. ML ensemble models can avoid the saturation described in the paper by combining different features. ML could also be used to extract features which may be able to estimate magnitude in place of PGA (​Trugman, 2018)​. These approaches could allow EEW systems to estimate the final magnitude before the rupture process has completed (Cuéllar et al., 2018).</p>
+<h3>References</h3>
+<p id="para_6_original">
+Cuéllar, A., Suárez, G., &amp; Espinosa-Aranda, J. M. (2018). A Fast Earthquake Early Warning Algorithm Based on the First 3 s of the P-Wave Coda. ​Bulletin of the Seismological Society of America,​ ​108(​ 4), 2068-2079. doi:10.1785/0120180079 <br><br>
+Goldberg, D. E., Melgar, D., Bock, Y., &amp; Allen, R. ​M. (2018). Geodetic Observations of Weak Determinism in Rupture Evolution of Large Earthquakes. ​Journal of Geophysical Research: Solid Earth,123​(11), 9950-9962. doi:10.1029/2018jb015962 <br><br>
+Kong, Q., Trugman, D. T., Ross, Z. E., Bianco, M. J., Meade, B. J., &amp; Gerstoft, P. (2018). Machine Learning in Seismology: Turning Data into Insights. ​Seismological Research Letters,90​(1), 3-14. doi:10.1785/0220180259 <br><br>
+Trugman, D. (2018). ​Characterizing Earthquake Hazards and Source Dynamics Using Machine Learning.​ Seminar presented at MIT Earth Research Laboratory in Cambridge, Massachusetts. Retrieved December 13, 2020, from
+  
+https://www.youtube.com/watch?v=3MDzndzAzbQ&amp;t=530s <br><br>
+Trugman, D. T., Page, M. T., Minson, S. E., &amp; Cochran, E. S. (2019). Peak Ground Displacement Saturates Exactly When Expected: Implications for Earthquake Early Warning. Journal of Geophysical Research: Solid Earth,124(​ 5), 4642-4653. doi:10.1029/2018jb017093 <br><br>
+Trugman, D. T., &amp; Shearer, P. M. (2018). Strong Correlation between Stress Drop and Peak Ground Acceleration for Recent M 1–4 Earthquakes in the San Francisco Bay Area. ​Bulletin of the Seismological Society of America,​ ​108​(2), 929-945. doi:10.1785/0120170245</p></div>
+    </div>
+    <script type="text/javascript">
+      setTimeout(function() {
+        document.getElementById("loading").classList.add("animated");
+        document.getElementById("loading").classList.add("fadeOut");
+        setTimeout(function() {
+          document.getElementById("loading").classList.remove("animated");
+          document.getElementById("loading").classList.remove("fadeOut");
+          document.getElementById("loading").style.display = "none";
+        }, 800);
+      }, 1500);
+      $.getJSON("../../config.json", function(user) {
+        var icon = document.createElement("link");
+        icon.setAttribute("rel", "icon");
+        icon.setAttribute("href", user[0].userimg);
+        icon.setAttribute("type", "image/png");
+        document.getElementsByTagName("head")[0].appendChild(icon);
+        document.getElementById(
+          "profile_img_blog"
+        ).style.background = `url('${user[0].userimg}') center center`;
+        document.getElementById(
+          "username_blog"
+        ).innerHTML = `<span style="display:${
+          user[0].name == null || !user[0].name ? "none" : "block"
+        };">${user[0].name}</span>@${user[0].username}<b id="blog_time"></b>`;
+
+        if ((user[0].theme = "dark.css")) {
+          document.querySelector("#background_overlay").style.background =
+            "linear-gradient(0deg, rgba(10, 10, 10, 1), rgba(10, 10, 10, 0.1))";
+        } else {
+          document.querySelector("#background_overlay").style.background =
+            "linear-gradient(0deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.1))";
+        }
+      });
+    </script>
+  
+
+</body></html>
